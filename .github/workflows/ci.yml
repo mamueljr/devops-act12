@@ -1,0 +1,28 @@
+name: CI Pipeline Python
+
+on: [push] # Se ejecuta al hacer push
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Ejecutar script
+        run: python script.py
+
+      - name: Subir resultado como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultado-ejecucion
+          path: resultado.txt
+
+      - name: Notificar éxito
+        if: success()
+        run: echo "✔️ Pipeline completado! Ver artefacto en 'Summary'"
