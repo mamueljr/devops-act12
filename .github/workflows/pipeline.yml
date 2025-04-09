@@ -5,7 +5,7 @@ jobs:
   ejecutar-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout del código
         uses: actions/checkout@v4
 
       - name: Configurar Python
@@ -13,16 +13,19 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Ejecutar script
+      - name: Instalar dependencias
+        run: pip install datetime
+
+      - name: Ejecutar script Python
         run: python script.py
 
-      - name: Subir artefacto
-        uses: actions/upload-artifact@v3
+      - name: Subir artefacto (versión corregida)
+        uses: actions/upload-artifact@v4
         with:
           name: resultados
           path: resultados.txt
 
-      - name: Notificar
+      - name: Notificación final
         run: |
-          echo "🎉 Pipeline completado!"
-          echo "Descarga los resultados en la pestaña 'Artifacts'"
+          echo "🎉 ¡Pipeline completado con éxito!"
+          echo "📦 Artefacto disponible en la pestaña 'Summary'"
